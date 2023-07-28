@@ -3,9 +3,13 @@ import { authController } from '../controllers/Authentication.ts'
 import { getRequestBodyDetails, responseBodyDetails } from './utilities.ts';
 import { authorization } from '../controllers/Authorization.ts';
 
-const router = new Router();
+import { RequestDetailsExtraction } from '../controllers/req-details-extraction.ts';
 
-router.get(
+const router = new Router();
+const reqDetails = new RequestDetailsExtraction();
+
+router
+.get(
     '/',
     (ctx: any) => { 
         ctx.response.body = "Hello Tharak this is from Oak Framework"
@@ -16,9 +20,13 @@ router.get(
     async (ctx: Context) => {
         let data = await getRequestBodyDetails(ctx)
         let token = await ctx.request.headers.get('authorization')
-        // let author = authorization.isAuthorized(ctx.request.headers.authorization)
-        let author = authorization.isAuthorized(token)
-        ctx.response.body = JSON.stringify("Tharak from Banglore")
+        let authorizationFlag = await authorization.isAuthorized(token)
+        if(authorizationFlag){
+            ctx.response.body = JSON.stringify("Tharak from Banglore")
+        }
+        else {
+            throw new Error('Token Expired')
+        }
     }
 )
 
@@ -26,6 +34,12 @@ router.get(
     '/login', 
      async (ctx: Context) => {
         let data = await getRequestBodyDetails(ctx)
+        // let data = await reqEx.gg(ctx)
+
+
+
+        // console.log("the request body is", await r/eqDetails.provideCtxInstance().provideReqInstance().getBodyDetails())
+        // let data = await reqEx.gg(ctx)
         let TOKEN = await authController.authenticate(data) as string
         ctx.response.body = { token: TOKEN }
     }
@@ -35,6 +49,13 @@ router.get(
     '/register',
     async(ctx: Context) => {
         let data = await getRequestBodyDetails(ctx)
+    }
+)
+
+.get(
+    '',
+    async (ctx: Context) => {
+
     }
 )
 

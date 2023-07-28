@@ -4,12 +4,19 @@ import { authController } from './Authentication.ts';
 class Authorization {
 
     // private key = authController.getSecretKey();
+    private payloadDetails;
 
     isAuthorized = async (jwt: any) => {
-
-        const { payload, header} = await jwtVerify(jwt,authController.getSecretKey())
-        console.log("the verified jwt is", payload)
-        
+        try {
+            const { payload, header} = await jwtVerify(jwt,authController.getSecretKey())
+            this.payloadDetails = payload
+            if(!!payload) return true
+        }
+        catch {
+            throw new Error("Token Expired")
+            return false
+        }
+        // console.log("the verified jwt is", payload)
     }
 
 }

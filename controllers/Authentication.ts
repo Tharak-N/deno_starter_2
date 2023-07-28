@@ -13,9 +13,8 @@ class Authentication {
     async jwtTokenGeneration<T>(_payload: T): string{
         const payload: object = typeof _payload === 'string' ? JSON.parse(_payload as object) : _payload
         let secretKey = await generateSecret('HS512')
-
         this.secretKey = secretKey
-        console.log("the secret key is", this.secretKey)
+        // console.log("the secret key is", this.secretKey)
 
         let jwt_key = await new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS512', typ: "JWT" })
@@ -24,12 +23,12 @@ class Authentication {
         .setExpirationTime('2h')
         .sign(this.secretKey)
 
-        console.log("the jwt_key is", jwt_key)
+        // console.log("the jwt_key is", jwt_key)
         return jwt_key
     }
 
     getSecretKey(){
-        console.log("the key before sending is", this.secretKey)
+        // console.log("the key before sending is", this.secretKey)
         return this.secretKey
     }
 }

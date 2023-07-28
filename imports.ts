@@ -1,4 +1,4 @@
-import { Application, Context } from 'https://deno.land/x/oak@v12.6.0/mod.ts';
+import { Application, Context, type Middleware } from 'https://deno.land/x/oak@v12.6.0/mod.ts';
 import { Router } from 'https://deno.land/x/oak@v12.6.0/router.ts';
 // import { RouterMiddleware } from 'https://deno.land/x/oak@v12.6.0/mod.ts'
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
@@ -15,8 +15,10 @@ import { jwtDecrypt } from 'https://deno.land/x/jose@v4.14.4/jwt/decrypt.ts';
 // import { parseJwk } from "https://deno.land/x/jose@4.14.4/jwk/parse.ts";
 import { importJWK } from 'https://deno.land/x/jose@v4.14.4/key/import.ts';
 
+// import { type Middleware } from "https://deno.land/x/oak@v12.6.0/mod.ts";
+
 export { 
-    Application, Router, Context, 
+    Application, Router, Context, Middleware,
     oakCors, MongoClient,
     generateSecret, SignJWT, jwtVerify, jwtDecrypt, importJWK
 }
